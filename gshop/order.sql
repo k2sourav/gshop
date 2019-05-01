@@ -1,5 +1,9 @@
 
 DROP TABLE IF EXISTS `cart`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `order_details`;
+DROP TABLE IF EXISTS `delivery`;
+
 CREATE TABLE IF NOT EXISTS `cart` (
   `cart_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
@@ -13,8 +17,6 @@ CREATE TABLE IF NOT EXISTS `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
-
-DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
@@ -35,13 +37,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `idx_fav_user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `order_details`
---
-
-DROP TABLE IF EXISTS `order_details`;
 CREATE TABLE IF NOT EXISTS `order_details` (
   `detail_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `order_id` int(10) unsigned NOT NULL,
@@ -49,6 +45,16 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `product_quantity` float NOT NULL,
   `price_per_unit` decimal(10,2) NOT NULL,
   PRIMARY KEY (`detail_id`),
+  KEY `idx_od_prod` (`product_id`),
+  KEY `idx_od_order` (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `delivery` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(10) unsigned NOT NULL,
+  `slot` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `idx_od_prod` (`product_id`),
   KEY `idx_od_order` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
